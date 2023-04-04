@@ -1,0 +1,85 @@
+<div class="bg-gray-100 w-[500px] rounded-lg">
+  <div class="flex justify-between bg-blue-100 px-5 pt-3">
+    <h1>Time For Mon 04/03</h1>
+    <button mat-button mat-dialog-close>Cancel</button>
+  </div>
+  <div class="flex flex-col mt-7 px-5">
+    <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
+      >Project</span
+    >
+    <div class="relative w-64">
+      <input
+        type="text"
+        class="w-full h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+      />
+      <span class="absolute top-2 right-2 cursor-pointer text-blue-500"
+        ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon
+      ></span>
+    </div>
+  </div>
+
+  <div class="flex flex-col mt-7 px-5">
+    <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
+      >Task</span
+    >
+    <div class="relative w-64">
+      <input
+        type="text"
+        class="w-full h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+      />
+      <span class="absolute top-2 right-2 cursor-pointer text-blue-500"
+        ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon
+      ></span>
+    </div>
+  </div>
+
+  <div class="flex flex-col mt-7 w-64 px-5">
+    <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
+      >Hours</span
+    >
+    <input
+      type="number"
+      class="w-full h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+    />
+  </div>
+
+  <div class="flex flex-col mt-7 px-5">
+    <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
+      >Details/Notes</span
+    >
+    <div class="relative w-64">
+      <input
+        type="text"
+        class="w-full h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+      />
+      <span class="absolute top-2 right-2 cursor-pointer text-blue-500"
+        ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon
+      ></span>
+    </div>
+  </div>
+
+  <div class="flex flex-col mt-7 px-5">
+    <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
+      >Ticket Key</span
+    >
+    <div class="relative w-64">
+      <input
+        type="text"
+        class="w-full h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+      />
+      <span class="absolute top-2 right-2 cursor-pointer text-blue-500"
+        ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon
+      ></span>
+    </div>
+  </div>
+
+  <div class="flex justify-end py-2 px-5">
+    <button
+      class="tex-blue-600 border border-blue-400 py-1 text-blue-400 px-4 text-[0.7rem] rounded-[5px]"
+      [mat-dialog-close]="true"
+      cdkFocusInitial
+    >
+      Done
+    </button>
+  </div>
+</div>
