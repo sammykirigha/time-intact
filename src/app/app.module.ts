@@ -12,6 +12,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { DropdownModule } from '@coreui/angular';
+import { IconModule, IconSetService } from '@coreui/icons-angular';
 
 @NgModule({
   declarations: [AppComponent, DialogComponent],
@@ -26,8 +28,10 @@ import { DialogComponent } from './components/dialog/dialog.component';
     MatInputModule,
     FontAwesomeModule,
     MatDialogModule,
+    DropdownModule,
+    IconModule,
   ],
-  providers: [],
+  providers: [IconSetService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -8,4 +8,11 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 })
 export class DialogComponent {
   faAngleDown = faAngleDown;
+
+  showDropdown: boolean = false;
+
+  onDropDownToggle(): void {
+    this.showDropdown = !this.showDropdown;
+    console.log('I clicked the icon', this.showDropdown);
+  }
 }
