@@ -13,3 +13,12 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.mdc-line-ripple::before {
+  outline: 0px !important;
+}
+
+.mat-mdc-form-field-bottom-align::before {
+  display: inline flex !important;
+  height: 0px !important;
+}

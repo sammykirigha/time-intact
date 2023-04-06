@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { DialogComponent } from './components/dialog/dialog.component';
+import { TimeInfoComponent } from './components/time-info/time-info.component';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +21,7 @@ export class AppComponent {
   });
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogComponent);
+    const dialogRef = this.dialog.open(TimeInfoComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);

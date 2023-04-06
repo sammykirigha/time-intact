@@ -1,0 +1,117 @@
+<app-dialog>
+  <div
+    class="flex justify-between items-center rounded-b-sm bg-blue-100 px-5 py-2 pt-3 static"
+  >
+    <span class="text-[0.8rem] text-gray-700 cursor-pointer">
+      Time For Mon 04/03
+    </span>
+    <span
+      class="text-[0.8rem] text-gray-700 cursor-pointer"
+      mat-span
+      mat-dialog-close
+    >
+      <fa-icon [icon]="faClose" [classes]="['icon-styles']" size="2x"></fa-icon>
+    </span>
+  </div>
+
+  <div class="">
+    <div class="flex flex-col mt-7 px-5">
+      <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
+        >Project</span
+      >
+      <div class="relative w-64">
+        <input
+          type="text"
+          class="w-full h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+        />
+        <span class="absolute top-2 right-2 cursor-pointer text-blue-500"
+          ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon
+        ></span>
+      </div>
+    </div>
+
+    <div class="flex flex-col mt-7 px-5">
+      <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
+        >Task</span
+      >
+      <div class="relative w-64">
+        <input
+          type="text"
+          class="w-full h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+        />
+        <span class="absolute top-2 right-2 cursor-pointer text-blue-500"
+          ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon
+        ></span>
+      </div>
+    </div>
+
+    <div class="flex flex-col mt-7 w-64 px-5">
+      <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
+        >Hours</span
+      >
+      <input
+        type="number"
+        class="w-full h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+      />
+    </div>
+
+    <div class="flex flex-col mt-7 px-5">
+      <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
+        >Details/Notes</span
+      >
+      <div class="relative w-64">
+        <input
+          type="text"
+          class="w-full h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+        />
+        <span class="absolute top-2 right-2 cursor-pointer text-blue-500"
+          ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon
+        ></span>
+      </div>
+    </div>
+
+    <div class="flex flex-col mt-7 px-5 relative w-64">
+      <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
+        >Ticket Key</span
+      >
+
+      <div class="w-64 flex items-center relative">
+        <input
+          type="text"
+          class="w-[100%] h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+        />
+
+        <span
+          (click)="onToggleShowSelect()"
+          class="flex items-center bg-red-900 absolute right-0 pr-2 pt-2 cursor-pointer text-blue-500 z-40"
+          ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon>
+        </span>
+
+        <form
+          class="example-form w-64 absolute top-0 left-0 bg-blue-900"
+          *ngIf="showSelect"
+        >
+          <div class="example-full-width" appearance="fill">
+            <input
+              type="text"
+              placeholder="Pick one"
+              aria-label="Number"
+              matInput
+              class="w-full h-8 px-2 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+              [formControl]="myControl"
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of filteredOptions | async"
+                [value]="option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</app-dialog>

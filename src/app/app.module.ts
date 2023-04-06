@@ -13,10 +13,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { DropdownModule } from '@coreui/angular';
-import { IconModule, IconSetService } from '@coreui/icons-angular';
-
+import { MatSelectModule } from '@angular/material/select';
+import { TimeInfoComponent } from './components/time-info/time-info.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 @NgModule({
-  declarations: [AppComponent, DialogComponent],
+  declarations: [AppComponent, DialogComponent, TimeInfoComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -26,12 +27,14 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
     MatNativeDateModule,
     MatButtonModule,
     MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
     FontAwesomeModule,
     MatDialogModule,
     DropdownModule,
-    IconModule,
+    MatAutocompleteModule,
   ],
-  providers: [IconSetService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
