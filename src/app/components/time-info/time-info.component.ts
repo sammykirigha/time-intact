@@ -17,27 +17,115 @@ export class TimeInfoComponent {
 
   constructor(public dialog: MatDialog) {}
 
-  myControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]> | undefined;
+  myProjectControl = new FormControl('');
+  myTaskControl = new FormControl('');
+  myDetailsControl = new FormControl('');
+  myTicketControl = new FormControl('');
 
-  showSelect: boolean = false;
+  projectOptions: string[] = [
+    'Project One',
+    'Project Two',
+    'Project Three',
+    'Project Four',
+    'Project Five',
+    'Project Six',
+  ];
+  taskOptions: string[] = [
+    'Task One',
+    'Task Two',
+    'Task Three',
+    'Task Four',
+    'Task Five',
+    'Task Six',
+  ];
+  DetailsOptions: string[] = [
+    'Details One',
+    'Details Two',
+    'Details Three',
+    'Details Four',
+    'Details Five',
+    'Details Six',
+  ];
+  TicketOptions: string[] = [
+    'Tickets One',
+    'Tickets Two',
+    'Tickets Three',
+    'Tickets Four',
+    'Tickets Five',
+    'Tickets Six',
+  ];
+  filteredProjectOptions: Observable<string[]> | undefined;
+  filteredTaskOptions: Observable<string[]> | undefined;
+  filteredDetailsOptions: Observable<string[]> | undefined;
+  filteredTicketOptions: Observable<string[]> | undefined;
 
-  onToggleShowSelect(): void {
-    this.showSelect = !this.showSelect;
+  showTicketSelect: boolean = false;
+  showProjectSelect: boolean = false;
+  showTaskSelect: boolean = false;
+  showDetailsSelect: boolean = false;
+
+  onToggleShowTicketSelect(): void {
+    this.showTicketSelect = !this.showTicketSelect;
+  }
+  onToggleShowProjectSelect(): void {
+    this.showProjectSelect = !this.showProjectSelect;
+  }
+  onToggleShowTaskSelect(): void {
+    this.showTaskSelect = !this.showTaskSelect;
+  }
+  onToggleShowDetailsSelect(): void {
+    this.showDetailsSelect = !this.showDetailsSelect;
   }
 
   ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.filteredProjectOptions = this.myProjectControl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filter(value || ''))
+      map((value) => this._filterProjects(value || ''))
+    );
+
+    this.filteredTaskOptions = this.myTaskControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterTask(value || ''))
+    );
+
+    this.filteredDetailsOptions = this.myDetailsControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterDetails(value || ''))
+    );
+
+    this.filteredTicketOptions = this.myTicketControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterTicket(value || ''))
     );
   }
 
-  private _filter(value: string): string[] {
+  private _filterProjects(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options.filter((option) =>
+    return this.projectOptions.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
+  }
+
+  private _filterTask(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.taskOptions.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
+  }
+
+  private _filterDetails(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.DetailsOptions.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
+  }
+  private _filterTicket(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.TicketOptions.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );
   }

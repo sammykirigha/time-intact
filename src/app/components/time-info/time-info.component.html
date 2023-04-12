@@ -19,14 +19,42 @@
       <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
         >Project</span
       >
-      <div class="relative w-64">
+      <div class="w-64 flex items-center relative">
         <input
           type="text"
-          class="w-full h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+          class="w-[100%] transparent h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
         />
-        <span class="absolute top-2 right-2 cursor-pointer text-blue-500"
-          ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon
-        ></span>
+
+        <span
+          (click)="onToggleShowProjectSelect()"
+          class="flex items-center absolute right-0 pr-2 pt-2 cursor-pointer text-blue-500 z-40"
+          ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon>
+        </span>
+
+        <form
+          class="example-form w-64 absolute top-0 left-0"
+          *ngIf="showProjectSelect"
+        >
+          <div class="example-full-width" appearance="fill">
+            <input
+              type="text"
+              placeholder="Pick one"
+              aria-label="Number"
+              matInput
+              class="w-full h-8 px-2 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+              [formControl]="myProjectControl"
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of filteredProjectOptions | async"
+                [value]="option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -34,14 +62,42 @@
       <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
         >Task</span
       >
-      <div class="relative w-64">
+      <div class="w-64 flex items-center relative">
         <input
           type="text"
-          class="w-full h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+          class="w-[100%] transparent h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
         />
-        <span class="absolute top-2 right-2 cursor-pointer text-blue-500"
-          ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon
-        ></span>
+
+        <span
+          (click)="onToggleShowTaskSelect()"
+          class="flex items-center absolute right-0 pr-2 pt-2 cursor-pointer text-blue-500 z-40"
+          ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon>
+        </span>
+
+        <form
+          class="example-form w-64 absolute top-0 left-0"
+          *ngIf="showTaskSelect"
+        >
+          <div class="example-full-width" appearance="fill">
+            <input
+              type="text"
+              placeholder="Pick one"
+              aria-label="Number"
+              matInput
+              class="w-full h-8 px-2 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+              [formControl]="myTaskControl"
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of filteredTaskOptions | async"
+                [value]="option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -59,14 +115,42 @@
       <span class="after:content-['*'] after:ml-0.5 after:text-red-500"
         >Details/Notes</span
       >
-      <div class="relative w-64">
+      <div class="w-64 flex items-center relative">
         <input
           type="text"
-          class="w-full h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+          class="w-[100%] transparent h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
         />
-        <span class="absolute top-2 right-2 cursor-pointer text-blue-500"
-          ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon
-        ></span>
+
+        <span
+          (click)="onToggleShowDetailsSelect()"
+          class="flex items-center absolute right-0 pr-2 pt-2 cursor-pointer text-blue-500 z-40"
+          ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon>
+        </span>
+
+        <form
+          class="example-form w-64 absolute top-0 left-0"
+          *ngIf="showDetailsSelect"
+        >
+          <div class="example-full-width" appearance="fill">
+            <input
+              type="text"
+              placeholder="Pick one"
+              aria-label="Number"
+              matInput
+              class="w-full h-8 px-2 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+              [formControl]="myDetailsControl"
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of filteredDetailsOptions | async"
+                [value]="option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -78,18 +162,18 @@
       <div class="w-64 flex items-center relative">
         <input
           type="text"
-          class="w-[100%] h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+          class="w-[100%] transparent h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
         />
 
         <span
-          (click)="onToggleShowSelect()"
-          class="flex items-center bg-red-900 absolute right-0 pr-2 pt-2 cursor-pointer text-blue-500 z-40"
+          (click)="onToggleShowTicketSelect()"
+          class="flex items-center absolute right-0 pr-2 pt-2 cursor-pointer text-blue-500 z-40"
           ><fa-icon [icon]="faAngleDown" [classes]="['icon-styles']"></fa-icon>
         </span>
 
         <form
-          class="example-form w-64 absolute top-0 left-0 bg-blue-900"
-          *ngIf="showSelect"
+          class="example-form w-64 absolute top-0 left-0"
+          *ngIf="showTicketSelect"
         >
           <div class="example-full-width" appearance="fill">
             <input
@@ -98,12 +182,12 @@
               aria-label="Number"
               matInput
               class="w-full h-8 px-2 rounded-lg outline outline-0 focus:border focus:border-blue-500"
-              [formControl]="myControl"
+              [formControl]="myTicketControl"
               [matAutocomplete]="auto"
             />
             <mat-autocomplete #auto="matAutocomplete">
               <mat-option
-                *ngFor="let option of filteredOptions | async"
+                *ngFor="let option of filteredTicketOptions | async"
                 [value]="option"
               >
                 {{ option }}
