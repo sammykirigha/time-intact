@@ -62,20 +62,24 @@
 
   <div class="flex flex-col gap-5">
     <div class="flex flex-col w-64">
-      <label for="" class="text-[.8rem] text-gray-900">Description</label>
+      <label for="" class="text-[.8rem] text-gray-900"
+        >Description (optional)</label
+      >
       <textarea
         type="text"
-        class="w-full px-2 py-1 h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+        class="w-full px-2 py-1 text-[0.8rem] h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
       ></textarea>
     </div>
 
     <div class="flex flex-col">
-      <label for="" class="text-[.8rem] text-gray-900">Attachment</label>
+      <label for="" class="text-[.8rem] text-gray-900"
+        >Attachment (optional)</label
+      >
 
       <div class="w-64 flex items-center relative">
         <input
           type="text"
-          class="w-[100%] transparent h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+          class="w-[100%] transparent text-[0.8rem] px-2 h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
         />
 
         <span
@@ -91,10 +95,10 @@
           <div class="example-full-width" appearance="fill">
             <input
               type="text"
-              placeholder="Click to select a ticket"
+              placeholder="Select attachment"
               aria-label="Number"
               matInput
-              class="w-full h-8 px-2 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+              class="w-full h-8 px-2 rounded-lg text-[0.8rem] outline outline-0 focus:border focus:border-blue-500 placeholder:text-[0.8rem]"
               [formControl]="attachmentControl"
               [matAutocomplete]="auto"
             />
@@ -102,6 +106,7 @@
               <mat-option
                 *ngFor="let option of filteredAttachOptions | async"
                 [value]="option"
+                class="text-[0.8rem]"
               >
                 {{ option }}
               </mat-option>
@@ -120,4 +125,97 @@
       Enter Time
     </button>
   </div>
+</div>
+
+<div
+  class="mt-5 flex flex-col justify-center bg-gray-100 max-w-[1024px] mx-auto px-10 pt-10"
+>
+  <p class="text-[0.9rem] text-gray-600">Time entered Information</p>
+
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    class="mat-elevation-z8 demo-table"
+  >
+    <!-- Name Column -->
+    <ng-container matColumnDef="project">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-[0.9rem] border border-r-gray-300"
+      >
+        Project
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="text-[0.8rem] border border-r-gray-300"
+      >
+        {{ element.project }}
+      </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="task">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-[0.9rem] border border-r-gray-300"
+      >
+        Task
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="text-[0.8rem] border border-r-gray-300"
+      >
+        {{ element.task }}
+      </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="date">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-[0.9rem] border border-r-gray-300"
+      >
+        Date
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="text-[0.8rem] border border-r-gray-300"
+      >
+        {{ element.date }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dateRange">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-[0.9rem] border border-r-gray-300"
+      >
+        Date Range
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="text-[0.8rem] border border-r-gray-300"
+      >
+        {{ element.dateRange }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef class="text-[0.9rem]">Total</th>
+      <td mat-cell *matCellDef="let element" class="text-[0.8rem]">
+        {{ element.total }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
 </div>

@@ -5,6 +5,35 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { TimeInfoComponent } from './components/time-info/time-info.component';
 import { Observable, map, startWith } from 'rxjs';
 
+export interface PeriodicElement {
+  project: string;
+  task: string;
+  date?: string;
+  dateRange?: string;
+  total?: number;
+}
+
+const Time_Info_Data: PeriodicElement[] = [
+  {
+    project: 'P-00171--The Jitu:The Jitu Premier- Internal',
+    task: 'INTERNAL--Internal  ',
+    date: '04-13-2023',
+    total: 8,
+  },
+  {
+    project: 'P-00171--The Jitu:The Jitu Premier- Internal',
+    task: 'INTERNAL--Internal  ',
+    dateRange: '(04-11-2023) - (04-15-2023)',
+    total: 24,
+  },
+  {
+    project: 'P-00171--The Jitu:The Jitu Premier- Internal',
+    task: 'INTERNAL--Internal  ',
+    date: '04-13-2023',
+    total: 8,
+  },
+];
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -61,4 +90,13 @@ export class AppComponent {
       option.toLowerCase().includes(filterValue)
     );
   }
+
+  displayedColumns: string[] = [
+    'project',
+    'task',
+    'date',
+    'dateRange',
+    'total',
+  ];
+  dataSource = Time_Info_Data;
 }
