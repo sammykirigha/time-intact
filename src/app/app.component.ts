@@ -34,6 +34,12 @@ const Time_Info_Data: PeriodicElement[] = [
   },
 ];
 
+export interface IInfoData {
+  description: string;
+  attachment: string;
+  date?: string;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -42,16 +48,16 @@ const Time_Info_Data: PeriodicElement[] = [
 export class AppComponent {
   faAngleDown = faAngleDown;
   title = 'intact-time-log';
+  selectedDate: any | undefined;
+  selectedDateRange = new FormControl();
 
-  constructor(public dialog: MatDialog) {}
+  FormInfo: IInfoData = {
+    description: '',
+    attachment: '',
+  };
 
   attachmentControl = new FormControl('');
   showAttachmentSelect: boolean = false;
-
-  onToggleShowAttachmentSelect(): void {
-    this.showAttachmentSelect = !this.showAttachmentSelect;
-  }
-
   AttachmentsOptions: string[] = [
     'Project One',
     'Project Two',
@@ -67,6 +73,31 @@ export class AppComponent {
     start: new FormControl(),
     end: new FormControl(),
   });
+
+  dataSource = Time_Info_Data;
+
+  displayedColumns: string[] = [
+    'project',
+    'task',
+    'date',
+    'dateRange',
+    'total',
+  ];
+
+  constructor(public dialog: MatDialog) {}
+
+  onDescriptionChange(event: any) {
+    this.FormInfo.description = event.target.value;
+    console.log(this.FormInfo.description);
+  }
+  onAttachmentChange(event: any) {
+    this.FormInfo.attachment = event.target.value;
+    console.log(this.FormInfo.attachment);
+  }
+
+  onToggleShowAttachmentSelect(): void {
+    this.showAttachmentSelect = !this.showAttachmentSelect;
+  }
 
   openDialog() {
     const dialogRef = this.dialog.open(TimeInfoComponent);
@@ -90,13 +121,4 @@ export class AppComponent {
       option.toLowerCase().includes(filterValue)
     );
   }
-
-  displayedColumns: string[] = [
-    'project',
-    'task',
-    'date',
-    'dateRange',
-    'total',
-  ];
-  dataSource = Time_Info_Data;
 }

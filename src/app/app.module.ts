@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -16,7 +17,7 @@ import { DropdownModule } from '@coreui/angular';
 import { MatSelectModule } from '@angular/material/select';
 import { TimeInfoComponent } from './components/time-info/time-info.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
   declarations: [AppComponent, DialogComponent, TimeInfoComponent],
   imports: [
@@ -34,7 +35,8 @@ import {MatTableModule} from '@angular/material/table';
     MatDialogModule,
     DropdownModule,
     MatAutocompleteModule,
-    MatTableModule
+    MatTableModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
