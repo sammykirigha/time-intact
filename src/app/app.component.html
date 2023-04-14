@@ -29,11 +29,13 @@
       />
       <mat-icon
         matDatepickerToggleIcon
+        *ngIf="showDateCancelForSingleDate"
         (click)="clearDate($event, dateSelected)"
         class="cursor-pointer absolute top-7 right-1"
         ><fa-icon [icon]="faXmark" class="text-gray-600 text-lg"></fa-icon
       ></mat-icon>
       <mat-datepicker-toggle
+        (click)="toggleShowDateCancelForSingleDate()"
         matIconSuffix
         [for]="datepicker"
       ></mat-datepicker-toggle>
