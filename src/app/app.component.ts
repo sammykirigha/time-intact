@@ -50,6 +50,9 @@ export class AppComponent {
   title = 'intact-time-log';
   selectedDate: any | undefined;
   selectedDateRange = new FormControl();
+  dateRangeStart: any | undefined;
+  dateRangeEnd: any | undefined;
+  dateSelected: any | undefined;
 
   FormInfo: IInfoData = {
     description: '',
@@ -93,6 +96,18 @@ export class AppComponent {
   onAttachmentChange(event: any) {
     this.FormInfo.attachment = event.target.value;
     console.log(this.FormInfo.attachment);
+  }
+
+  dateRangeChange(
+    dateRangeStart: HTMLInputElement,
+    dateRangeEnd: HTMLInputElement
+  ) {
+    console.log(dateRangeStart.value);
+    console.log(dateRangeEnd.value);
+  }
+
+  onDateChange(dateSelected: HTMLInputElement) {
+    console.log(dateSelected.value);
   }
 
   onToggleShowAttachmentSelect(): void {
