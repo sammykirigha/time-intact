@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { TimeInfoComponent } from './components/time-info/time-info.component';
 import { Observable, map, startWith } from 'rxjs';
 
@@ -47,7 +47,9 @@ export interface IInfoData {
 })
 export class AppComponent {
   faAngleDown = faAngleDown;
+  faXmark = faXmark;
   title = 'intact-time-log';
+  dateTypeSelected: string = '';
   selectedDate: any | undefined;
   selectedDateRange = new FormControl();
   dateRangeStart: any | undefined;
@@ -108,6 +110,18 @@ export class AppComponent {
 
   onDateChange(dateSelected: HTMLInputElement) {
     console.log(dateSelected.value);
+  }
+
+  resetDateRange() {
+    this.dateRangeStart = '';
+    this.dateRangeEnd = '';
+  }
+
+  //  selectedDate: Date;
+
+  clearDate(event: any, dateSelected: HTMLInputElement) {
+    event.stopPropagation();
+    dateSelected.value = '';
   }
 
   onToggleShowAttachmentSelect(): void {

@@ -14,7 +14,7 @@
   </div>
 
   <div class="flex justify-start gap-10">
-    <mat-form-field appearance="fill" class="example-form-field">
+    <mat-form-field appearance="fill" class="example-form-field relative">
       <label
         class="text-[.8rem] -ml-4 text-gray-600 after:content-['*'] after:ml-0.5 after:text-red-500"
         >Choose a date</label
@@ -26,6 +26,12 @@
         #dateSelected
         (dateChange)="onDateChange(dateSelected)"
       />
+      <mat-icon
+        matDatepickerToggleIcon
+        (click)="clearDate($event, dateSelected)"
+        class="cursor-pointer absolute top-7 right-1"
+        ><fa-icon [icon]="faXmark" class="text-gray-600 text-lg"></fa-icon
+      ></mat-icon>
       <mat-datepicker-toggle
         matIconSuffix
         [for]="datepicker"
@@ -61,7 +67,13 @@
       <!-- #docregion date-range-picker-actions -->
       <mat-date-range-picker #rangePicker>
         <mat-date-range-picker-actions>
-          <button mat-button matDateRangePickerCancel>Cancel</button>
+          <button
+            mat-button
+            matDateRangePickerCancel
+            (click)="resetDateRange()"
+          >
+            Cancel
+          </button>
           <button mat-raised-button color="primary" matDateRangePickerApply>
             Apply
           </button>
