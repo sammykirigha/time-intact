@@ -49,7 +49,7 @@ export class AppComponent {
   faAngleDown = faAngleDown;
   faXmark = faXmark;
   title = 'intact-time-log';
-  dateTypeSelected: string = '';
+  showDateCancelForDateRange: boolean = false;
   selectedDate: any | undefined;
   selectedDateRange = new FormControl();
   dateRangeStart: any | undefined;
@@ -122,6 +122,20 @@ export class AppComponent {
   clearDate(event: any, dateSelected: HTMLInputElement) {
     event.stopPropagation();
     dateSelected.value = '';
+  }
+
+  clearDateRange(
+    event: any,
+    dateRangeStart: HTMLInputElement,
+    dateRangeEnd: HTMLInputElement
+  ) {
+    event.stopPropagation();
+    dateRangeStart.value = '';
+    dateRangeEnd.value = '';
+  }
+
+  toggleShowDateCancelForDateRange() {
+    this.showDateCancelForDateRange = true;
   }
 
   onToggleShowAttachmentSelect(): void {

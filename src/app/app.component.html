@@ -23,6 +23,7 @@
         matInput
         [matDatepicker]="datepicker"
         placeholder="Date"
+        class="!text-[0.8rem]"
         #dateSelected
         (dateChange)="onDateChange(dateSelected)"
       />
@@ -51,7 +52,7 @@
         class="text-[.8rem] -ml-4 text-gray-600 after:content-['*'] after:ml-0.5 after:text-red-500"
         >Enter a date range</label
       >
-      <mat-date-range-input [rangePicker]="rangePicker">
+      <mat-date-range-input [rangePicker]="rangePicker" class="!text-[0.8rem]">
         <input matStartDate placeholder="Start date" #dateRangeStart />
         <input
           matEndDate
@@ -60,6 +61,13 @@
           (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)"
         />
       </mat-date-range-input>
+      <mat-icon
+        matDatepickerToggleIcon
+        *ngIf="toggleShowDateCancelForDateRange"
+        (click)="clearDateRange($event, dateRangeStart, dateRangeEnd)"
+        class="cursor-pointer absolute top-7 right-0"
+        ><fa-icon [icon]="faXmark" class="text-gray-600 text-lg"></fa-icon
+      ></mat-icon>
       <mat-datepicker-toggle
         matIconSuffix
         [for]="rangePicker"
