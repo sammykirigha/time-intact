@@ -63,12 +63,13 @@
       </mat-date-range-input>
       <mat-icon
         matDatepickerToggleIcon
-        *ngIf="toggleShowDateCancelForDateRange"
+        *ngIf="showDateCancelForDateRange"
         (click)="clearDateRange($event, dateRangeStart, dateRangeEnd)"
         class="cursor-pointer absolute top-7 right-0"
         ><fa-icon [icon]="faXmark" class="text-gray-600 text-lg"></fa-icon
       ></mat-icon>
       <mat-datepicker-toggle
+        (click)="toggleShowDateCancelForDateRange()"
         matIconSuffix
         [for]="rangePicker"
       ></mat-datepicker-toggle>

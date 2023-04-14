@@ -1,9 +1,3 @@
 .example-form-field {
   margin-right: 20px;
 }
-#mat-date-range-input-0
-  > div
-  > div.mat-date-range-input-wrapper.mat-date-range-input-end-wrapper {
-  font-size: 10px;
-  background-color: red;
-}

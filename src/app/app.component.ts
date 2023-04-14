@@ -132,6 +132,7 @@ export class AppComponent {
     event.stopPropagation();
     dateRangeStart.value = '';
     dateRangeEnd.value = '';
+    this.showDateCancelForDateRange = false;
   }
 
   toggleShowDateCancelForDateRange() {
