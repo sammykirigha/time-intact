@@ -1,10 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
+
+export interface UsersData {
+  name: string;
+  id: number;
+}
 
 @Component({
   selector: 'app-time-info',
@@ -15,7 +25,18 @@ export class TimeInfoComponent {
   faAngleDown = faAngleDown;
   faClose = faClose;
 
-  constructor(public dialog: MatDialog) {}
+  action: string;
+  local_data: any;
+
+  constructor(
+    public dialog: MatDialog,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: UsersData,
+    private dialogRef: MatDialogRef<DialogComponent>
+  ) {
+    console.log('data', data);
+    this.local_data = { ...data };
+    this.action = this.local_data.action;
+  }
 
   myProjectControl = new FormControl('');
   myTaskControl = new FormControl('');
@@ -75,6 +96,14 @@ export class TimeInfoComponent {
   }
   onToggleShowDetailsSelect(): void {
     this.showDetailsSelect = !this.showDetailsSelect;
+  }
+
+  doAction() {
+    this.dialogRef.close({ event: this.action, data: this.local_data });
+  }
+
+  closeDialog() {
+    this.dialogRef.close({ event: 'Cancel' });
   }
 
   ngOnInit() {

@@ -13,6 +13,12 @@ export interface PeriodicElement {
   total?: number;
 }
 
+export interface UsersData {
+  action: any;
+  name: string;
+  id: number;
+}
+
 const Time_Info_Data: PeriodicElement[] = [
   {
     project: 'P-00171--The Jitu:The Jitu Premier- Internal',
@@ -56,6 +62,14 @@ export class AppComponent {
   dateRangeStart: any | undefined;
   dateRangeEnd: any | undefined;
   dateSelected: any | undefined;
+
+  info: UsersData = {
+    name: 'Sammy',
+    id: 1,
+    action: undefined,
+  };
+
+  open: string = 'open';
 
   FormInfo: IInfoData = {
     description: '',
@@ -149,11 +163,14 @@ export class AppComponent {
     this.showAttachmentSelect = !this.showAttachmentSelect;
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(TimeInfoComponent);
+  openDialog(action: any, obj: UsersData) {
+    obj.action = action;
+    const dialogRef = this.dialog.open(TimeInfoComponent, {
+      data: obj,
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      console.log(`Dialog result???: ${result}, ${obj}`);
     });
   }
 

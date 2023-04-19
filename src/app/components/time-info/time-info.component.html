@@ -1,4 +1,4 @@
-<app-dialog>
+<div class="bg-gray-100 w-[650px] h-auto overflow-auto relative fixed">
   <div
     class="flex justify-between items-center rounded-b-sm bg-blue-100 px-5 py-2 pt-3 static"
   >
@@ -175,4 +175,15 @@
       </div>
     </div>
   </div>
-</app-dialog>
+
+  <div class="flex justify-end py-2 px-5">
+    <button
+      (click)="doAction()"
+      class="tex-blue-600 border border-blue-400 py-1 text-blue-400 px-4 text-[0.7rem] rounded-[5px]"
+      [mat-dialog-close]="true"
+      cdkFocusInitial
+    >
+      Done
+    </button>
+  </div>
+</div>
