@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { faAngleDown, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { TimeInfoComponent } from './components/time-info/time-info.component';
 import { Observable, map, startWith } from 'rxjs';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 export interface PeriodicElement {
   project: string;
@@ -55,8 +56,6 @@ export class AppComponent {
   faAngleDown = faAngleDown;
   faXmark = faXmark;
   title = 'intact-time-log';
-  showDateCancelForDateRange: boolean = false;
-  showDateCancelForSingleDate: boolean = false;
   selectedDate: any | undefined;
   selectedDateRange = new FormControl();
   dateRangeStart: any | undefined;
@@ -107,17 +106,23 @@ export class AppComponent {
   ];
 
   constructor(public dialog: MatDialog) {
-    const today = new Date();
-    console.log('<<<<>>>', today);
+    let today = new Date();
+    // today = this.dateSelected === '' ? new Date() : new Date(`${this.dateSelected}`);
+    // new Date(`${this.dateSelected}`);
+    //   this.dateSelected === '' ? new Date() :
+    // console.log(new Date(`${this.dateSelected}`));
 
     const dayOfWeek = today.getDay();
-    console.log('<<<<>>>', dayOfWeek);
     const diff = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
     const sum = today.getDate() + dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
-    console.log('<<<<>>> diff', diff, sum);
     const firstDayOfWeek = new Date(today.setDate(diff));
-    console.log('<<<<>>>', firstDayOfWeek);
+    const lastDayOfWeek = new Date(today.setDate(sum));
+
     this.defaultDate = firstDayOfWeek.toISOString().substring(0, 10);
+    const lastDate = lastDayOfWeek.toISOString().substring(0, 10);
+    this.endDate = `${lastDate.split('-')[1]}/${lastDate.split('-')[2]}/${
+      lastDate.split('-')[0]
+    }`;
   }
 
   onDescriptionChange(event: any) {
@@ -129,29 +134,14 @@ export class AppComponent {
     console.log(this.FormInfo.attachment);
   }
 
-  dateRangeChange(
-    dateRangeStart: HTMLInputElement,
-    dateRangeEnd: HTMLInputElement
-  ) {
-    console.log(dateRangeStart.value);
-    console.log(dateRangeEnd.value);
+  onDateChange(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.dateSelected = event.value;
+    console.log('my date selected', this.dateSelected);
   }
-
-  onDateChange(dateSelected: HTMLInputElement) {
-    console.log(dateSelected.value);
-  }
-
-  resetDateRange() {
-    this.dateRangeStart = '';
-    this.dateRangeEnd = '';
-  }
-
-  //  selectedDate: Date;
 
   clearDate(event: any, dateSelected: HTMLInputElement) {
     event.stopPropagation();
     dateSelected.value = '';
-    this.showDateCancelForSingleDate = false;
   }
 
   clearDateRange(
@@ -162,15 +152,6 @@ export class AppComponent {
     event.stopPropagation();
     dateRangeStart.value = '';
     dateRangeEnd.value = '';
-    this.showDateCancelForDateRange = false;
-  }
-
-  toggleShowDateCancelForDateRange() {
-    this.showDateCancelForDateRange = true;
-  }
-
-  toggleShowDateCancelForSingleDate() {
-    this.showDateCancelForSingleDate = true;
   }
 
   onToggleShowAttachmentSelect(): void {
