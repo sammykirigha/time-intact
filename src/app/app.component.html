@@ -13,94 +13,58 @@
     </p>
   </div>
 
-  <div class="flex justify-start gap-10">
-    <mat-form-field appearance="fill" class="example-form-field relative">
-      <label
-        class="text-[.8rem] -ml-4 text-gray-600 after:content-['*'] after:ml-0.5 after:text-red-500"
-        >Choose a date</label
-      >
-      <input
-        matInput
-        [matDatepicker]="datepicker"
-        placeholder="Date"
-        class="!text-[0.8rem]"
-        #dateSelected
-        (dateChange)="onDateChange(dateSelected)"
-      />
-      <mat-icon
-        matDatepickerToggleIcon
-        *ngIf="showDateCancelForSingleDate"
-        (click)="clearDate($event, dateSelected)"
-        class="cursor-pointer absolute top-7 right-1"
-        ><fa-icon [icon]="faXmark" class="text-gray-600 text-lg"></fa-icon
-      ></mat-icon>
-      <mat-datepicker-toggle
-        (click)="toggleShowDateCancelForSingleDate()"
-        matIconSuffix
-        [for]="datepicker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #datepicker>
-        <mat-datepicker-actions>
-          <button mat-button matDatepickerCancel>Cancel</button>
-          <button mat-raised-button color="primary" matDatepickerApply>
-            Apply
-          </button>
-        </mat-datepicker-actions>
-      </mat-datepicker>
-    </mat-form-field>
+  <mat-form-field
+    appearance="fill"
+    class="example-form-field relative w-[300px]"
+  >
+    <label
+      class="text-[.8rem] -ml-4 text-gray-600 after:content-['*'] after:ml-0.5 after:text-red-500"
+      >Begin date</label
+    >
+    <input
+      matInput
+      [matDatepicker]="datepicker"
+      placeholder="Date"
+      class="!text-[0.8rem] -ml-4"
+      [value]="defaultDate"
+      #dateSelected
+      (dateChange)="onDateChange(dateSelected)"
+    />
+    <mat-icon
+      matDatepickerToggleIcon
+      *ngIf="showDateCancelForSingleDate"
+      (click)="clearDate($event, dateSelected)"
+      class="cursor-pointer absolute top-7 right-1"
+      ><fa-icon [icon]="faXmark" class="text-gray-600 text-lg"></fa-icon
+    ></mat-icon>
+    <mat-datepicker-toggle
+      (click)="toggleShowDateCancelForSingleDate()"
+      matIconSuffix
+      [for]="datepicker"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #datepicker>
+      <mat-datepicker-actions>
+        <button mat-button matDatepickerCancel>Cancel</button>
+        <button mat-raised-button color="primary" matDatepickerApply>
+          Apply
+        </button>
+      </mat-datepicker-actions>
+    </mat-datepicker>
+  </mat-form-field>
 
-    <mat-form-field appearance="fill" class="example-form-field">
-      <label
-        class="text-[.8rem] -ml-4 text-gray-600 after:content-['*'] after:ml-0.5 after:text-red-500"
-        >Enter a date range</label
-      >
-      <mat-date-range-input [rangePicker]="rangePicker" class="!text-[0.8rem]">
-        <input matStartDate placeholder="Start date" #dateRangeStart />
-        <input
-          matEndDate
-          placeholder="End date"
-          #dateRangeEnd
-          (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)"
-        />
-      </mat-date-range-input>
-      <mat-icon
-        matDatepickerToggleIcon
-        *ngIf="showDateCancelForDateRange"
-        (click)="clearDateRange($event, dateRangeStart, dateRangeEnd)"
-        class="cursor-pointer absolute top-7 right-0"
-        ><fa-icon [icon]="faXmark" class="text-gray-600 text-lg"></fa-icon
-      ></mat-icon>
-      <mat-datepicker-toggle
-        (click)="toggleShowDateCancelForDateRange()"
-        matIconSuffix
-        [for]="rangePicker"
-      ></mat-datepicker-toggle>
-      <!-- #docregion date-range-picker-actions -->
-      <mat-date-range-picker #rangePicker>
-        <mat-date-range-picker-actions>
-          <button
-            mat-button
-            matDateRangePickerCancel
-            (click)="resetDateRange()"
-          >
-            Cancel
-          </button>
-          <button mat-raised-button color="primary" matDateRangePickerApply>
-            Apply
-          </button>
-        </mat-date-range-picker-actions>
-      </mat-date-range-picker>
-      <!-- #enddocregion date-range-picker-actions -->
-    </mat-form-field>
-  </div>
-
-  <div class="flex flex-col gap-5">
-    <div>Single Date: {{ dateSelected.value }}</div>
-    <div class="flex gap-5">
-      <div>Start Date: {{ dateRangeStart.value }}</div>
-      <div>End Date: {{ dateRangeEnd.value }}</div>
+  <div class="flex flex-col">
+    <div class="flex flex-col gap-3">
+      <div class="flex flex-col">
+        <span class="!text-[0.8rem] leading font-[400]">End date</span>
+        <span class="!text-[0.8rem] font-[300]">{{ dateSelected.value }}</span>
+      </div>
+      <div class="flex flex-col gap-[2px]">
+        <span class="!text-[0.8rem] leading-1 font-[400]">GL post date</span>
+        <span class="!text-[0.8rem] font-[300]">{{ dateSelected.value }}</span>
+      </div>
     </div>
-    <div class="flex flex-col w-64">
+
+    <!-- <div class="flex flex-col mt-3 w-64">
       <label for="" class="text-[.8rem] text-gray-900"
         >Description (optional)</label
       >
@@ -109,9 +73,9 @@
         (change)="onDescriptionChange($event)"
         class="w-full px-2 py-1 text-[0.8rem] h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
       ></textarea>
-    </div>
+    </div> -->
 
-    <div class="flex flex-col">
+    <!-- <div class="flex flex-col">
       <label for="" class="text-[.8rem] text-gray-900"
         >Attachment (optional)</label
       >
@@ -155,10 +119,10 @@
           </div>
         </form>
       </div>
-    </div>
+    </div> -->
   </div>
 
-  <div class="flex mt-10 mb-10">
+  <div class="flex mt-6 mb-10">
     <button
       (click)="openDialog(open, info)"
       class="tex-blue-600 border border-blue-400 py-1 text-blue-400 px-4 text-[0.7rem] rounded-[5px]"

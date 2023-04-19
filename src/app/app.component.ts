@@ -62,6 +62,8 @@ export class AppComponent {
   dateRangeStart: any | undefined;
   dateRangeEnd: any | undefined;
   dateSelected: any | undefined;
+  defaultDate: string | undefined;
+  endDate: string | undefined;
 
   info: UsersData = {
     name: 'Sammy',
@@ -104,7 +106,19 @@ export class AppComponent {
     'total',
   ];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) {
+    const today = new Date();
+    console.log('<<<<>>>', today);
+
+    const dayOfWeek = today.getDay();
+    console.log('<<<<>>>', dayOfWeek);
+    const diff = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+    const sum = today.getDate() + dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+    console.log('<<<<>>> diff', diff, sum);
+    const firstDayOfWeek = new Date(today.setDate(diff));
+    console.log('<<<<>>>', firstDayOfWeek);
+    this.defaultDate = firstDayOfWeek.toISOString().substring(0, 10);
+  }
 
   onDescriptionChange(event: any) {
     this.FormInfo.description = event.target.value;
