@@ -59,7 +59,7 @@
 
   <div class="flex mt-6 mb-10">
     <button
-      (click)="openDialog(open, info)"
+      (click)="openDialog(info)"
       class="tex-blue-600 border border-blue-400 py-1 text-blue-400 px-4 text-[0.7rem] rounded-[5px]"
     >
       Enter Time
@@ -72,92 +72,6 @@
 >
   <p class="text-[0.9rem] text-gray-600">Time entered Information</p>
 
-  <table
-    mat-table
-    [dataSource]="dataSource"
-    class="mat-elevation-z8 demo-table shadow-none"
-  >
-    <!-- Name Column -->
-    <ng-container matColumnDef="project">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        class="text-[0.9rem] border border-r-gray-300"
-      >
-        Project
-      </th>
-      <td
-        mat-cell
-        *matCellDef="let element"
-        class="text-[0.8rem] border border-r-gray-300"
-      >
-        {{ element.project }}
-      </td>
-    </ng-container>
-
-    <!-- Weight Column -->
-    <ng-container matColumnDef="task">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        class="text-[0.9rem] border border-r-gray-300"
-      >
-        Task
-      </th>
-      <td
-        mat-cell
-        *matCellDef="let element"
-        class="text-[0.8rem] border border-r-gray-300"
-      >
-        {{ element.task }}
-      </td>
-    </ng-container>
-
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="date">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        class="text-[0.9rem] border border-r-gray-300"
-      >
-        Date
-      </th>
-      <td
-        mat-cell
-        *matCellDef="let element"
-        class="text-[0.8rem] border border-r-gray-300"
-      >
-        {{ element.date }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="dateRange">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        class="text-[0.9rem] border border-r-gray-300"
-      >
-        Date Range
-      </th>
-      <td
-        mat-cell
-        *matCellDef="let element"
-        class="text-[0.8rem] border border-r-gray-300"
-      >
-        {{ element.dateRange }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="total">
-      <th mat-header-cell *matHeaderCellDef class="text-[0.9rem]">Total</th>
-      <td mat-cell *matCellDef="let element" class="text-[0.8rem]">
-        {{ element.total }}
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
   <div
     class="flex items-center justify-between px-3 py-1 border border-b-gray-400"
   >

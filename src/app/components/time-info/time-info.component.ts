@@ -39,7 +39,7 @@ export class TimeInfoComponent {
   ticketSelected: string | undefined;
   details: string | undefined;
   date: object | undefined;
-  time: any | undefined;
+  time: number | undefined;
 
   constructor(
     public dialog: MatDialog,
@@ -58,29 +58,20 @@ export class TimeInfoComponent {
   myTicketControl = new FormControl('');
 
   projectOptions: string[] = [
-    'Project One',
-    'Project Two',
-    'Project Three',
-    'Project Four',
-    'Project Five',
-    'Project Six',
+    'P-00171--The Jitu:The Jitu Premier- Internal',
+    'P-00789--Eclipse:Eclipse Services - Internal',
+    'P-00882--Centerpoint IT - IT Help Desk',
+    'P-00940--Eclipse Services - LEAVE - HOLIDAY',
+    'P-00942--Jitu Premier - LEAVE - PTO',
   ];
   taskOptions: string[] = [
-    'Task One',
-    'Task Two',
-    'Task Three',
-    'Task Four',
-    'Task Five',
-    'Task Six',
+    'PTO--PTO',
+    'HOLIDAY--Holiday',
+    'INTERNAL--Internal(Chally)',
+    'INTERNAL--Internal(Terra)',
+    'INTERNAL--Internal(ACL)',
   ];
-  DetailsOptions: string[] = [
-    'Details One',
-    'Details Two',
-    'Details Three',
-    'Details Four',
-    'Details Five',
-    'Details Six',
-  ];
+
   TicketOptions: string[] = [
     'Tickets One',
     'Tickets Two',
@@ -91,7 +82,6 @@ export class TimeInfoComponent {
   ];
   filteredProjectOptions: Observable<string[]> | undefined;
   filteredTaskOptions: Observable<string[]> | undefined;
-  filteredDetailsOptions: Observable<string[]> | undefined;
   filteredTicketOptions: Observable<string[]> | undefined;
 
   showTicketSelect: boolean = false;
@@ -108,20 +98,14 @@ export class TimeInfoComponent {
   onToggleShowTaskSelect(): void {
     this.showTaskSelect = !this.showTaskSelect;
   }
-  onToggleShowDetailsSelect(): void {
-    this.showDetailsSelect = !this.showDetailsSelect;
-  }
 
   onDetailsChange(event: Event) {
     this.details = (event.target as HTMLInputElement).value;
   }
 
   onTimeChange(event: Event) {
-    this.time = (event.target as HTMLInputElement).value;
-    console.log(
-      'time input',
-      (this.time = (event.target as HTMLInputElement).value)
-    );
+    let time = (event.target as HTMLInputElement).value;
+    this.time = parseInt(time);
   }
 
   populateProject(event: MatAutocompleteSelectedEvent) {
@@ -131,10 +115,6 @@ export class TimeInfoComponent {
   populateTask(event: MatAutocompleteSelectedEvent) {
     this.taskSelected = event.option.value;
     console.log('the topG men', this.taskSelected);
-  }
-  populateDetails(event: MatAutocompleteSelectedEvent) {
-    this.detailsSelected = event.option.value;
-    console.log('the topG men', this.detailsSelected);
   }
   populateTicketKey(event: MatAutocompleteSelectedEvent) {
     this.ticketSelected = event.option.value;
@@ -151,7 +131,7 @@ export class TimeInfoComponent {
       project: this.projectSelected,
       task: this.taskSelected,
       details: this.details,
-      time: 24,
+      time: this.time,
       dateRange: {
         start: this.dateRange.value.start,
         end: this.dateRange.value.end,
@@ -169,11 +149,6 @@ export class TimeInfoComponent {
     this.filteredTaskOptions = this.myTaskControl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterTask(value || ''))
-    );
-
-    this.filteredDetailsOptions = this.myDetailsControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filterDetails(value || ''))
     );
 
     this.filteredTicketOptions = this.myTicketControl.valueChanges.pipe(
@@ -198,13 +173,6 @@ export class TimeInfoComponent {
     );
   }
 
-  private _filterDetails(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.DetailsOptions.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
-  }
   private _filterTicket(value: string): string[] {
     const filterValue = value.toLowerCase();
 

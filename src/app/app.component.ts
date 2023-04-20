@@ -6,48 +6,38 @@ import { TimeInfoComponent } from './components/time-info/time-info.component';
 import { Observable, map, startWith } from 'rxjs';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
-export interface PeriodicElement {
+export interface IUserTimeInfo {
   project: string;
   task: string;
-  date?: string;
-  dateRange?: string;
+  dates?: string;
+  dateRange?: {
+    start: string;
+    end: string;
+  };
+  time?: number;
+  details?: string;
   total?: number;
 }
 
-export interface UsersData {
-  action: any;
-  name: string;
-  id: number;
+export interface DateLimiterData {
   firstDayOfWeek?: any;
   lastDayOfWeek?: any;
 }
 
-const Time_Info_Data: PeriodicElement[] = [
+const Time_Info_Data: IUserTimeInfo[] = [
   {
     project: 'P-00171--The Jitu:The Jitu Premier- Internal',
     task: 'INTERNAL--Internal  ',
-    date: '04-13-2023',
+    dates: '04-13-2023',
     total: 8,
   },
   {
     project: 'P-00171--The Jitu:The Jitu Premier- Internal',
     task: 'INTERNAL--Internal  ',
-    dateRange: '(04-11-2023) - (04-15-2023)',
-    total: 24,
-  },
-  {
-    project: 'P-00171--The Jitu:The Jitu Premier- Internal',
-    task: 'INTERNAL--Internal  ',
-    date: '04-13-2023',
+    dates: '04-13-2023',
     total: 8,
   },
 ];
-
-export interface IInfoData {
-  description: string;
-  attachment: string;
-  date?: string;
-}
 
 @Component({
   selector: 'app-root',
@@ -65,34 +55,33 @@ export class AppComponent {
   dateSelected: any | undefined;
   defaultDate: string | undefined;
   endDate: string | undefined;
-
-  info: UsersData = {
-    name: '',
-    id: 1,
-    action: undefined,
+  info: DateLimiterData = {
     firstDayOfWeek: '',
     lastDayOfWeek: '',
   };
-
-  open: string = 'open';
-
-  FormInfo: IInfoData = {
-    description: '',
-    attachment: '',
+  userInfo: IUserTimeInfo = {
+    project: '',
+    task: '',
+    dates: '',
+    dateRange: {
+      start: '',
+      end: '',
+    },
+    time: 0,
+    details: '',
+    total: 0,
   };
 
-  attachmentControl = new FormControl('');
-  showAttachmentSelect: boolean = false;
-  AttachmentsOptions: string[] = [
-    'Project One',
-    'Project Two',
-    'Project Three',
-    'Project Four',
-    'Project Five',
-    'Project Six',
-  ];
-
-  filteredAttachOptions: Observable<string[]> | undefined;
+  userInfoFromDialog: IUserTimeInfo = {
+    project: '',
+    task: '',
+    dateRange: {
+      start: '',
+      end: '',
+    },
+    time: 0,
+    details: '',
+  };
 
   dateRange = new FormGroup({
     start: new FormControl(),
@@ -112,13 +101,9 @@ export class AppComponent {
   constructor(public dialog: MatDialog) {
     const today = new Date();
     const diff = today.getDate() - today.getDay();
-
     const sum = today.getDate() - today.getDay() + 6;
     const firstDayOfWeek = new Date(today.setDate(diff));
     const lastDayOfWeek = new Date(today.setDate(sum));
-
-    console.log('firstDayOfWeek****', firstDayOfWeek.toISOString());
-    console.log('lastDayOfWeek####', lastDayOfWeek.toISOString());
 
     this.defaultDate = firstDayOfWeek.toISOString().substring(0, 10);
     const lastDate = lastDayOfWeek.toISOString().substring(0, 10);
@@ -127,9 +112,6 @@ export class AppComponent {
     }`;
 
     this.info = {
-      name: 'Sammy',
-      id: 1,
-      action: 'open',
       firstDayOfWeek: firstDayOfWeek.toISOString(),
       lastDayOfWeek: lastDayOfWeek.toISOString(),
     };
@@ -140,34 +122,25 @@ export class AppComponent {
     console.log('my date selected', this.dateSelected);
   }
 
-  onToggleShowAttachmentSelect(): void {
-    this.showAttachmentSelect = !this.showAttachmentSelect;
-  }
-
-  openDialog(action: any, obj: UsersData) {
-    obj.action = action;
+  openDialog(obj: DateLimiterData) {
     this.dialog
       .open(TimeInfoComponent, {
         data: obj,
       })
       .afterClosed()
       .subscribe((resp) => {
-        console.log('<<>>Response', resp);
+        this.userInfoFromDialog = {
+          project: resp.project,
+          task: resp.task,
+          dateRange: resp.dateRange,
+          time: resp.time,
+          details: resp.details,
+        };
+        console.log('<<>>userInfoFromDialog', this.userInfoFromDialog);
       });
   }
 
-  ngOnInit() {
-    this.filteredAttachOptions = this.attachmentControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filteredAttachments(value || ''))
-    );
-  }
-
-  private _filteredAttachments(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.AttachmentsOptions.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
-  }
+  ngOnInit() {}
 }
+
+// Doing Internal Intact Time UI Refactor
