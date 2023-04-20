@@ -47,7 +47,10 @@
               [formControl]="myProjectControl"
               [matAutocomplete]="auto"
             />
-            <mat-autocomplete #auto="matAutocomplete">
+            <mat-autocomplete
+              (optionSelected)="populateProject($event)"
+              #auto="matAutocomplete"
+            >
               <mat-option
                 *ngFor="let option of filteredProjectOptions | async"
                 [value]="option"
@@ -92,7 +95,10 @@
               [formControl]="myTaskControl"
               [matAutocomplete]="auto"
             />
-            <mat-autocomplete #auto="matAutocomplete">
+            <mat-autocomplete
+              (optionSelected)="populateTask($event)"
+              #auto="matAutocomplete"
+            >
               <mat-option
                 *ngFor="let option of filteredTaskOptions | async"
                 [value]="option"
@@ -113,6 +119,7 @@
       >
       <textarea
         type="text"
+        (input)="onDetailsChange($event)"
         class="w-[300px] mt-2 px-2 text-[0.8rem] py-1 h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
       ></textarea>
     </div>
@@ -128,9 +135,20 @@
           class="!text-[0.8rem] -ml-4"
           [min]="minDate"
           [max]="maxDate"
+          [formGroup]="dateRange"
         >
-          <input matStartDate placeholder="Start date" #dateRangeStart />
-          <input matEndDate placeholder="End date" #dateRangeEnd />
+          <input
+            matStartDate
+            placeholder="Start date"
+            #dateRangeStart
+            formControlName="start"
+          />
+          <input
+            matEndDate
+            placeholder="End date"
+            #dateRangeEnd
+            formControlName="end"
+          />
         </mat-date-range-input>
 
         <mat-datepicker-toggle
@@ -155,6 +173,7 @@
       >
       <input
         type="number"
+        (input)="onTimeChange($event)"
         placeholder="Enter hours"
         class="w-[300px] h-8 rounded-lg mt-2 outline outline-0 px-2 focus:border focus:border-blue-500 placeholder:text-[0.7rem]"
       />
@@ -192,7 +211,10 @@
               [formControl]="myTicketControl"
               [matAutocomplete]="auto"
             />
-            <mat-autocomplete #auto="matAutocomplete">
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              (optionSelected)="populateTicketKey($event)"
+            >
               <mat-option
                 *ngFor="let option of filteredTicketOptions | async"
                 [value]="option"

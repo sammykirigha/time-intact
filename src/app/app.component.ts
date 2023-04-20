@@ -146,13 +146,14 @@ export class AppComponent {
 
   openDialog(action: any, obj: UsersData) {
     obj.action = action;
-    const dialogRef = this.dialog.open(TimeInfoComponent, {
-      data: obj,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result???: ${result}, ${obj}`);
-    });
+    this.dialog
+      .open(TimeInfoComponent, {
+        data: obj,
+      })
+      .afterClosed()
+      .subscribe((resp) => {
+        console.log('<<>>Response', resp);
+      });
   }
 
   ngOnInit() {

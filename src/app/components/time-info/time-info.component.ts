@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,8 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { AppComponent } from 'src/app/app.component';
 
 export interface UsersData {
   name: string;
@@ -31,19 +32,22 @@ export class TimeInfoComponent {
   local_data: any;
   minDate = '';
   maxDate = '';
+  selected: string = '';
+  projectSelected: string | undefined;
+  taskSelected: string | undefined;
+  detailsSelected: string | undefined;
+  ticketSelected: string | undefined;
+  details: string | undefined;
+  date: object | undefined;
+  time: any | undefined;
 
   constructor(
     public dialog: MatDialog,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: UsersData,
-    private dialogRef: MatDialogRef<DialogComponent>
+    private dialogRef: MatDialogRef<AppComponent>
   ) {
-    console.log(
-      'data',
-      data?.firstDayOfWeek.toString(),
-      data?.lastDayOfWeek.toString()
-    );
-    this.minDate = `${data?.firstDayOfWeek.toString()}`;
-    this.maxDate = `${data?.lastDayOfWeek.toString()}`;
+    this.minDate = `${data?.firstDayOfWeek}`;
+    this.maxDate = `${data?.lastDayOfWeek}`;
     this.local_data = { ...data };
     this.action = this.local_data.action;
   }
@@ -108,12 +112,52 @@ export class TimeInfoComponent {
     this.showDetailsSelect = !this.showDetailsSelect;
   }
 
-  doAction() {
-    this.dialogRef.close({ event: this.action, data: this.local_data });
+  onDetailsChange(event: Event) {
+    this.details = (event.target as HTMLInputElement).value;
   }
 
-  closeDialog() {
-    this.dialogRef.close({ event: 'Cancel' });
+  onTimeChange(event: Event) {
+    this.time = (event.target as HTMLInputElement).value;
+    console.log(
+      'time input',
+      (this.time = (event.target as HTMLInputElement).value)
+    );
+  }
+
+  populateProject(event: MatAutocompleteSelectedEvent) {
+    this.projectSelected = event.option.value;
+    console.log('the topG men', this.projectSelected);
+  }
+  populateTask(event: MatAutocompleteSelectedEvent) {
+    this.taskSelected = event.option.value;
+    console.log('the topG men', this.taskSelected);
+  }
+  populateDetails(event: MatAutocompleteSelectedEvent) {
+    this.detailsSelected = event.option.value;
+    console.log('the topG men', this.detailsSelected);
+  }
+  populateTicketKey(event: MatAutocompleteSelectedEvent) {
+    this.ticketSelected = event.option.value;
+    console.log('the topG men', this.ticketSelected);
+  }
+
+  dateRange = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+
+  doAction() {
+    this.dialogRef.close({
+      project: this.projectSelected,
+      task: this.taskSelected,
+      details: this.details,
+      time: 24,
+      dateRange: {
+        start: this.dateRange.value.start,
+        end: this.dateRange.value.end,
+      },
+      ticket: this.ticketSelected,
+    });
   }
 
   ngOnInit() {
