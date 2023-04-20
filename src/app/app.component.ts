@@ -106,17 +106,15 @@ export class AppComponent {
   ];
 
   constructor(public dialog: MatDialog) {
-    let today = new Date();
-    // today = this.dateSelected === '' ? new Date() : new Date(`${this.dateSelected}`);
-    // new Date(`${this.dateSelected}`);
-    //   this.dateSelected === '' ? new Date() :
-    // console.log(new Date(`${this.dateSelected}`));
+    const today = new Date();
+    const diff = today.getDate() - today.getDay();
 
-    const dayOfWeek = today.getDay();
-    const diff = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
-    const sum = today.getDate() + dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+    const sum = today.getDate() - today.getDay() + 6;
     const firstDayOfWeek = new Date(today.setDate(diff));
     const lastDayOfWeek = new Date(today.setDate(sum));
+
+    console.log('firstDayOfWeek', firstDayOfWeek);
+    console.log('lastDayOfWeek', lastDayOfWeek);
 
     this.defaultDate = firstDayOfWeek.toISOString().substring(0, 10);
     const lastDate = lastDayOfWeek.toISOString().substring(0, 10);
