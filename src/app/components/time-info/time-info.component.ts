@@ -14,6 +14,8 @@ import { DialogComponent } from '../dialog/dialog.component';
 export interface UsersData {
   name: string;
   id: number;
+  firstDayOfWeek: string;
+  lastDayOfWeek: string;
 }
 
 @Component({
@@ -27,13 +29,21 @@ export class TimeInfoComponent {
 
   action: string;
   local_data: any;
+  minDate = '';
+  maxDate = '';
 
   constructor(
     public dialog: MatDialog,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: UsersData,
     private dialogRef: MatDialogRef<DialogComponent>
   ) {
-    console.log('data', data);
+    console.log(
+      'data',
+      data?.firstDayOfWeek.toString(),
+      data?.lastDayOfWeek.toString()
+    );
+    this.minDate = `${data?.firstDayOfWeek.toString()}`;
+    this.maxDate = `${data?.lastDayOfWeek.toString()}`;
     this.local_data = { ...data };
     this.action = this.local_data.action;
   }

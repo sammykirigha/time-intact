@@ -20,7 +20,7 @@
         class="after:content-['*'] after:ml-0.5 after:text-red-500 text-[0.7rem] leading-3 tracking-2"
         >Project</span
       >
-      <div class="w-64 flex items-center relative mt-2">
+      <div class="w-[300px] flex items-center relative mt-2">
         <input
           (onfocus)="onToggleShowProjectSelect()"
           type="text"
@@ -34,7 +34,7 @@
         </span>
 
         <form
-          class="example-form w-64 absolute top-0 left-0"
+          class="example-form w-[300px] absolute top-0 left-0"
           *ngIf="showProjectSelect"
         >
           <div class="example-full-width" appearance="fill">
@@ -66,7 +66,7 @@
         class="after:content-['*'] after:ml-0.5 after:text-red-500 text-[0.7rem] leading-3 tracking-2"
         >Task</span
       >
-      <div class="w-64 flex items-center relative mt-2">
+      <div class="w-[300px] flex items-center relative mt-2">
         <input
           type="text"
           class="w-[100%] transparent h-8 px-2 rounded-lg outline outline-0 focus:border focus:border-blue-500"
@@ -79,7 +79,7 @@
         </span>
 
         <form
-          class="example-form w-64 absolute top-0 left-0"
+          class="example-form w-[300px] absolute top-0 left-0"
           *ngIf="showTaskSelect"
         >
           <div class="example-full-width" appearance="fill">
@@ -106,18 +106,6 @@
       </div>
     </div>
 
-    <div class="flex flex-col mt-7 w-64 px-5">
-      <span
-        class="after:content-['*'] after:ml-0.5 after:text-red-500 text-[0.7rem] leading-3 tracking-2"
-        >Hours</span
-      >
-      <input
-        type="number"
-        placeholder="Enter hours"
-        class="w-64 h-8 rounded-lg mt-2 outline outline-0 px-2 focus:border focus:border-blue-500 placeholder:text-[0.7rem]"
-      />
-    </div>
-
     <div class="flex flex-col mt-7 px-5">
       <span
         class="after:content-['*'] after:ml-0.5 after:text-red-500 text-[0.7rem] leading-3 tracking-2"
@@ -125,17 +113,60 @@
       >
       <textarea
         type="text"
-        class="w-64 mt-2 px-2 text-[0.8rem] py-1 h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
+        class="w-[300px] mt-2 px-2 text-[0.8rem] py-1 h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
       ></textarea>
     </div>
 
-    <div class="flex flex-col mt-7 px-5 relative w-64">
+    <div class="flex flex-col mt-7 px-5">
+      <mat-form-field appearance="fill" class="example-form-field w-[300px]">
+        <label
+          class="text-[.8rem] -ml-4 text-gray-700 after:content-['*'] after:ml-0.5 after:text-red-500"
+          >Enter a date range</label
+        >
+        <mat-date-range-input
+          [rangePicker]="rangePicker"
+          class="!text-[0.8rem] -ml-4"
+          [min]="minDate"
+          [max]="maxDate"
+        >
+          <input matStartDate placeholder="Start date" #dateRangeStart />
+          <input matEndDate placeholder="End date" #dateRangeEnd />
+        </mat-date-range-input>
+
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="rangePicker"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker #rangePicker>
+          <mat-date-range-picker-actions>
+            <button mat-button matDateRangePickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDateRangePickerApply>
+              Apply
+            </button>
+          </mat-date-range-picker-actions>
+        </mat-date-range-picker>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col mt-7 w-[300px] px-5">
+      <span
+        class="after:content-['*'] after:ml-0.5 after:text-red-500 text-[0.7rem] leading-3 tracking-2"
+        >Hours</span
+      >
+      <input
+        type="number"
+        placeholder="Enter hours"
+        class="w-[300px] h-8 rounded-lg mt-2 outline outline-0 px-2 focus:border focus:border-blue-500 placeholder:text-[0.7rem]"
+      />
+    </div>
+
+    <div class="flex flex-col mt-7 px-5 relative w-[300px]">
       <span
         class="after:content-['*'] after:ml-0.5 after:text-red-500 text-[0.7rem] leading-3 tracking-2"
         >Ticket Key</span
       >
 
-      <div class="w-64 flex items-center relative mt-2">
+      <div class="w-[300px] flex items-center relative mt-2">
         <input
           type="text"
           class="w-[100%] transparent h-8 rounded-lg outline outline-0 focus:border focus:border-blue-500"
@@ -148,7 +179,7 @@
         </span>
 
         <form
-          class="example-form w-64 absolute top-0 left-0"
+          class="example-form w-[300px] absolute top-0 left-0"
           *ngIf="showTicketSelect"
         >
           <div class="example-full-width" appearance="fill">
@@ -183,7 +214,7 @@
       [mat-dialog-close]="true"
       cdkFocusInitial
     >
-      Done
+      Add
     </button>
   </div>
 </div>

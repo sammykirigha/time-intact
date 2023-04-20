@@ -18,6 +18,8 @@ export interface UsersData {
   action: any;
   name: string;
   id: number;
+  firstDayOfWeek?: any;
+  lastDayOfWeek?: any;
 }
 
 const Time_Info_Data: PeriodicElement[] = [
@@ -65,9 +67,11 @@ export class AppComponent {
   endDate: string | undefined;
 
   info: UsersData = {
-    name: 'Sammy',
+    name: '',
     id: 1,
     action: undefined,
+    firstDayOfWeek: '',
+    lastDayOfWeek: '',
   };
 
   open: string = 'open';
@@ -113,43 +117,27 @@ export class AppComponent {
     const firstDayOfWeek = new Date(today.setDate(diff));
     const lastDayOfWeek = new Date(today.setDate(sum));
 
-    console.log('firstDayOfWeek', firstDayOfWeek);
-    console.log('lastDayOfWeek', lastDayOfWeek);
+    console.log('firstDayOfWeek****', firstDayOfWeek.toISOString());
+    console.log('lastDayOfWeek####', lastDayOfWeek.toISOString());
 
     this.defaultDate = firstDayOfWeek.toISOString().substring(0, 10);
     const lastDate = lastDayOfWeek.toISOString().substring(0, 10);
     this.endDate = `${lastDate.split('-')[1]}/${lastDate.split('-')[2]}/${
       lastDate.split('-')[0]
     }`;
-  }
 
-  onDescriptionChange(event: any) {
-    this.FormInfo.description = event.target.value;
-    console.log(this.FormInfo.description);
-  }
-  onAttachmentChange(event: any) {
-    this.FormInfo.attachment = event.target.value;
-    console.log(this.FormInfo.attachment);
+    this.info = {
+      name: 'Sammy',
+      id: 1,
+      action: 'open',
+      firstDayOfWeek: firstDayOfWeek.toISOString(),
+      lastDayOfWeek: lastDayOfWeek.toISOString(),
+    };
   }
 
   onDateChange(type: string, event: MatDatepickerInputEvent<Date>) {
     this.dateSelected = event.value;
     console.log('my date selected', this.dateSelected);
-  }
-
-  clearDate(event: any, dateSelected: HTMLInputElement) {
-    event.stopPropagation();
-    dateSelected.value = '';
-  }
-
-  clearDateRange(
-    event: any,
-    dateRangeStart: HTMLInputElement,
-    dateRangeEnd: HTMLInputElement
-  ) {
-    event.stopPropagation();
-    dateRangeStart.value = '';
-    dateRangeEnd.value = '';
   }
 
   onToggleShowAttachmentSelect(): void {
