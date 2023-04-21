@@ -10,12 +10,18 @@ export interface IUserTimeInfo {
   project: string;
   task: string;
   dates?: string;
-  dateRange?: {
-    start: string;
-    end: string;
-  };
+  start?: string;
+  end?: string;
   time?: number;
   details?: string;
+  total?: number;
+  ticket?: string;
+}
+
+export interface IUserTimeInfoForDisplay {
+  project: string;
+  task: string;
+  dates?: [string];
   total?: number;
 }
 
@@ -63,24 +69,22 @@ export class AppComponent {
     project: '',
     task: '',
     dates: '',
-    dateRange: {
-      start: '',
-      end: '',
-    },
+    start: '',
+    end: '',
     time: 0,
     details: '',
     total: 0,
+    ticket: '',
   };
 
   userInfoFromDialog: IUserTimeInfo = {
     project: '',
     task: '',
-    dateRange: {
-      start: '',
-      end: '',
-    },
+    start: '',
+    end: '',
     time: 0,
     details: '',
+    ticket: '',
   };
 
   dateRange = new FormGroup({
@@ -97,6 +101,7 @@ export class AppComponent {
     'dateRange',
     'total',
   ];
+  displayDates = [];
 
   constructor(public dialog: MatDialog) {
     const today = new Date();
@@ -132,12 +137,40 @@ export class AppComponent {
         this.userInfoFromDialog = {
           project: resp.project,
           task: resp.task,
-          dateRange: resp.dateRange,
+          start: resp.dateRange.start,
+          end: resp.dateRange.end,
           time: resp.time,
           details: resp.details,
+          ticket: resp.ticket,
         };
         console.log('<<>>userInfoFromDialog', this.userInfoFromDialog);
+        this.calculateArrayOfDate();
       });
+  }
+
+  calculateArrayOfDate(
+    startDate: string = '2023-04-16',
+    endDate: string = '2023-04-22'
+  ) {
+    let arrayOfDaysOfTheWeek = [];
+    let daysToBeEntered = [];
+    const startingDate = new Date(startDate);
+    const endDating = new Date(endDate);
+    const diffInMs: any = endDating.getTime() - startingDate.getTime();
+    const daysBetweenDates = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+
+    console.log('Date difference', daysBetweenDates);
+    for (let x = 0; x <= daysBetweenDates; x++) {
+      arrayOfDaysOfTheWeek.push(x);
+    }
+    let fiveDaysOfWeek = arrayOfDaysOfTheWeek.slice(1, 6);
+    let dates = [];
+    for (let i = 0; i < fiveDaysOfWeek.length; i++) {
+      let date = new Date(startDate);
+      let mySum = date.getDate() - date.getDay() + fiveDaysOfWeek[i];
+      dates.push(new Date(date.setDate(mySum)));
+    }
+    console.log('dates', dates);
   }
 
   ngOnInit() {}

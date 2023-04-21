@@ -72,11 +72,100 @@
 >
   <p class="text-[0.9rem] text-gray-600">Time entered Information</p>
 
-  <div
-    class="flex items-center justify-between px-3 py-1 border border-b-gray-400"
-  >
-    <p class="text-[1rem] leading-2 tracking-3">Total</p>
-    <span class="pr-7">40</span>
+  <div>
+    <div class="flex border border-gray-400">
+      <span
+        class="w-52 text-[0.9rem] border border-r-gray-400 py-5 pl-3 after:content-['*'] after:ml-0.5 after:text-red-800 after:mt-10"
+        >Project</span
+      >
+      <span
+        class="w-52 text-[0.9rem] border border-r-gray-400 py-5 pl-3 after:content-['*'] after:ml-0.5 after:text-red-800 after:mt-10"
+        >Task</span
+      >
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+        >Sun <br />
+        04/16</span
+      >
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+        >Mon <br />
+        04/17</span
+      >
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+        >Tue <br />
+        04/18</span
+      >
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+        >Wed <br />
+        04/19</span
+      >
+      <span
+        class="whitespace-pre text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+      >
+        Thu <br />
+        04/20
+      </span>
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+        >Fri <br />
+        04/21</span
+      >
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+        >Sat <br />
+        04/22</span
+      >
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 px-2 text-end py-2.5 pt-6 text-center"
+        >Total</span
+      >
+    </div>
+    <div class="flex border border-b-gray-400">
+      <span
+        class="w-52 truncate text-center text-[0.9rem] border border-x-gray-400 py-2 pl-3"
+        >P-00940--Eclipse Services - LEAVE - HOLIDAY</span
+      >
+      <span
+        class="w-52 truncate text-[0.9rem] border border-r-gray-400 py-2 pl-3"
+        >HOLIDAY--Holiday</span
+      >
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+        >0.00
+      </span>
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+        >8.00</span
+      >
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+        >8.00</span
+      >
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+        >8.00</span
+      >
+      <span
+        class="whitespace-pre text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+      >
+        8.00
+      </span>
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+        >8.00</span
+      >
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
+        >0.00</span
+      >
+      <span
+        class="whitespace-wrap text-[0.9rem] w-20 px-2 text-end py-2.5 pt-2 text-center border border-r-gray-400"
+        >40.00</span
+      >
+    </div>
   </div>
 
   <div class="flex items-center gap-4 justify-end mt-10 mb-5">
@@ -92,3 +181,88 @@
     </button>
   </div>
 </div>
+
+<!-- <table
+    mat-table
+    [dataSource]="dataSource"
+    class="mat-elevation-z8 demo-table shadow-none"
+  >
+
+    <ng-container matColumnDef="project">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-[0.9rem] border border-r-gray-300"
+      >
+        Project
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="text-[0.8rem] border border-r-gray-300"
+      >
+        {{ element.project }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="task">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-[0.9rem] border border-r-gray-300"
+      >
+        Task
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="text-[0.8rem] border border-r-gray-300"
+      >
+        {{ element.task }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-[0.9rem] border border-r-gray-300"
+      >
+        Date
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="text-[0.8rem] border border-r-gray-300"
+      >
+        {{ element.date }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dateRange">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-[0.9rem] border border-r-gray-300"
+      >
+        Date Range
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="text-[0.8rem] border border-r-gray-300"
+      >
+        {{ element.dateRange }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef class="text-[0.9rem]">Total</th>
+      <td mat-cell *matCellDef="let element" class="text-[0.8rem]">
+        {{ element.total }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table> -->
