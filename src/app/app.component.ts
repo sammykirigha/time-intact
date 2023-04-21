@@ -59,6 +59,8 @@ export class AppComponent {
   dateRangeStart: any | undefined;
   dateRangeEnd: any | undefined;
   dateSelected: any | undefined;
+  firstDay: any | undefined;
+  lastDay: any | undefined;
   defaultDate: string | undefined;
   endDate: string | undefined;
   info: DateLimiterData = {
@@ -102,6 +104,7 @@ export class AppComponent {
     'total',
   ];
   displayDates = [];
+  displayDateAndMonth = [];
 
   constructor(public dialog: MatDialog) {
     const today = new Date();
@@ -111,6 +114,8 @@ export class AppComponent {
     const lastDayOfWeek = new Date(today.setDate(sum));
 
     this.defaultDate = firstDayOfWeek.toISOString().substring(0, 10);
+    this.firstDay = firstDayOfWeek.toISOString().substring(0, 10);
+    this.lastDay = lastDayOfWeek.toISOString().substring(0, 10);
     const lastDate = lastDayOfWeek.toISOString().substring(0, 10);
     this.endDate = `${lastDate.split('-')[1]}/${lastDate.split('-')[2]}/${
       lastDate.split('-')[0]
@@ -135,45 +140,102 @@ export class AppComponent {
       .afterClosed()
       .subscribe((resp) => {
         this.userInfoFromDialog = {
-          project: resp.project,
-          task: resp.task,
-          start: resp.dateRange.start,
-          end: resp.dateRange.end,
-          time: resp.time,
-          details: resp.details,
-          ticket: resp.ticket,
+          project: resp?.project,
+          task: resp?.task,
+          start: resp?.dateRange.start,
+          end: resp?.dateRange.end,
+          time: resp?.time,
+          details: resp?.details,
+          ticket: resp?.ticket,
         };
         console.log('<<>>userInfoFromDialog', this.userInfoFromDialog);
-        this.calculateArrayOfDate();
+        let dateRange = {
+          start: this.userInfoFromDialog?.start,
+          end: this.userInfoFromDialog?.end,
+        };
+        let result = this.calculateArrayOfDate(
+          this.firstDay,
+          this.lastDay,
+          dateRange
+        );
+        console.log('result', result);
       });
   }
 
   calculateArrayOfDate(
-    startDate: string = '2023-04-16',
-    endDate: string = '2023-04-22'
+    startDate: any,
+    endDate: any,
+    dateRange: { start: any; end: any }
   ) {
-    let arrayOfDaysOfTheWeek = [];
-    let daysToBeEntered = [];
-    const startingDate = new Date(startDate);
-    const endDating = new Date(endDate);
-    const diffInMs: any = endDating.getTime() - startingDate.getTime();
-    const daysBetweenDates = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    let startingDate = new Date(startDate);
+    let endDating = new Date(endDate);
+    let finalReturnedDates: any[] = [];
 
-    console.log('Date difference', daysBetweenDates);
-    for (let x = 0; x <= daysBetweenDates; x++) {
-      arrayOfDaysOfTheWeek.push(x);
+    if (dateRange.start === null && dateRange.end === null) {
+      let allDatesByDefaultWithNoRange = [];
+      let date = new Date(startingDate?.getTime());
+      while (date <= endDating) {
+        allDatesByDefaultWithNoRange.push(new Date(date));
+        date.setDate(date.getDate() + 1);
+      }
+      let modifiedArray = allDatesByDefaultWithNoRange.slice(1, 6);
+      finalReturnedDates = finalReturnedDates.concat(modifiedArray);
+    } else {
+      let datesFromDialog = [];
+      let date = new Date(dateRange.start?.getTime());
+      while (date <= dateRange.end) {
+        datesFromDialog.push(new Date(date));
+        date.setDate(date.getDate() + 1);
+      }
+      finalReturnedDates = finalReturnedDates.concat(datesFromDialog);
     }
-    let fiveDaysOfWeek = arrayOfDaysOfTheWeek.slice(1, 6);
-    let dates = [];
-    for (let i = 0; i < fiveDaysOfWeek.length; i++) {
-      let date = new Date(startDate);
-      let mySum = date.getDate() - date.getDay() + fiveDaysOfWeek[i];
-      dates.push(new Date(date.setDate(mySum)));
-    }
-    console.log('dates', dates);
+    return finalReturnedDates;
   }
 
-  ngOnInit() {}
+  getDatesInBeginAndEndRange(startDate: any, endDate: any): any {
+    const date = new Date(startDate);
+    const dates = [];
+    while (date <= new Date(endDate)) {
+      dates.push(new Date(date));
+      date.setDate(date.getDate() + 1);
+    }
+    return dates;
+  }
+
+  ngOnInit() {
+    this.displayDates = this.getDatesInBeginAndEndRange(
+      this.firstDay,
+      this.lastDay
+    );
+    console.log('this.displayDates', this.displayDates);
+    let arr = this.displayDates;
+    let newArr = [];
+    let DateArray = [];
+    let DayNames: string[] = [];
+    for (let i = 0; i < arr.length; i++) {
+      new Date(arr[i])
+        .toDateString()
+        .split('-')
+        .map((it) => {
+          DayNames.push(it.split(' ')[0]);
+        });
+
+      newArr.push(new Date(arr[i]).toISOString().split('-'));
+      DateArray.push(new Date(arr[i]).toISOString().split('-')[2].split('T'));
+    }
+    console.log(newArr);
+
+    let newArray: any = [];
+    newArr.map((i) => {
+      let arrayMonth = i[1];
+      let arrayDate = i[2].split('T')[0];
+      newArray.push([arrayMonth, arrayDate]);
+    });
+    this.displayDateAndMonth = newArray.map((it: any) => {
+      return [it[0], it[1]];
+    });
+    console.log([...this.displayDateAndMonth, DayNames]);
+  }
 }
 
 // Doing Internal Intact Time UI Refactor
