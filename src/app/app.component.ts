@@ -105,6 +105,7 @@ export class AppComponent {
   ];
   displayDates = [];
   displayDateAndMonth = [];
+  returnedNumberOfDays: any = [];
 
   constructor(public dialog: MatDialog) {
     const today = new Date();
@@ -207,7 +208,6 @@ export class AppComponent {
       this.firstDay,
       this.lastDay
     );
-    console.log('this.displayDates', this.displayDates);
     let arr = this.displayDates;
     let newArr = [];
     let DateArray = [];
@@ -223,7 +223,6 @@ export class AppComponent {
       newArr.push(new Date(arr[i]).toISOString().split('-'));
       DateArray.push(new Date(arr[i]).toISOString().split('-')[2].split('T'));
     }
-    console.log(newArr);
 
     let newArray: any = [];
     newArr.map((i) => {
@@ -234,7 +233,22 @@ export class AppComponent {
     this.displayDateAndMonth = newArray.map((it: any) => {
       return [it[0], it[1]];
     });
-    console.log([...this.displayDateAndMonth, DayNames]);
+    console.log([this.displayDateAndMonth, DayNames]);
+    let thisArr: any[] = [];
+    let lastArr: any[] = [];
+
+    for (let i = 0; i < this.displayDateAndMonth.length; i++) {
+      thisArr.push([this.displayDateAndMonth[i]][0]);
+      for (let j = 0; j < DayNames.length; j++) {
+        console.log('kgjfkjkf', thisArr);
+        // lastArr.push([thisArr, DayNames[j]])s;
+      }
+    }
+
+    console.log();
+
+    this.returnedNumberOfDays = [lastArr.splice(0, 7)];
+    console.log(lastArr.splice(0, 7));
   }
 }
 
