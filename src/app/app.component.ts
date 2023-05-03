@@ -1,11 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  Input,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
 import { faAngleDown, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { TimeInfoComponent } from './components/time-info/time-info.component';
-import { Observable, map, startWith } from 'rxjs';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { TimeLogService } from './services/time-log.service';
+import { DateService } from './services/date.service';
 
+export interface TimeLog {
+  hours: number;
+  day: string;
+  month: string;
+  year: number;
+  date: string;
+  dayName: string;
+}
 export interface IUserTimeInfo {
   project: string;
   task: string;
@@ -50,7 +65,7 @@ const Time_Info_Data: IUserTimeInfo[] = [
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnChanges {
   faAngleDown = faAngleDown;
   faXmark = faXmark;
   title = 'intact-time-log';
@@ -58,7 +73,9 @@ export class AppComponent {
   selectedDateRange = new FormControl();
   dateRangeStart: any | undefined;
   dateRangeEnd: any | undefined;
-  dateSelected: any | undefined;
+
+  @Input() dateSelected: any | undefined;
+  @Input() date: any | undefined;
   firstDay: any | undefined;
   lastDay: any | undefined;
   defaultDate: string | undefined;
@@ -106,32 +123,16 @@ export class AppComponent {
   displayDates = [];
   displayDateAndMonth = [];
   returnedNumberOfDays: any = [];
+  totalHours: number = 0;
+  numberOfDaysLogged: any = 0;
+  hours: any;
+  timeLogs: TimeLog[] = [];
 
-  constructor(public dialog: MatDialog) {
-    const today = new Date();
-    const diff = today.getDate() - today.getDay();
-    const sum = today.getDate() - today.getDay() + 6;
-    const firstDayOfWeek = new Date(today.setDate(diff));
-    const lastDayOfWeek = new Date(today.setDate(sum));
-
-    this.defaultDate = firstDayOfWeek.toISOString().substring(0, 10);
-    this.firstDay = firstDayOfWeek.toISOString().substring(0, 10);
-    this.lastDay = lastDayOfWeek.toISOString().substring(0, 10);
-    const lastDate = lastDayOfWeek.toISOString().substring(0, 10);
-    this.endDate = `${lastDate.split('-')[1]}/${lastDate.split('-')[2]}/${
-      lastDate.split('-')[0]
-    }`;
-
-    this.info = {
-      firstDayOfWeek: firstDayOfWeek.toISOString(),
-      lastDayOfWeek: lastDayOfWeek.toISOString(),
-    };
-  }
-
-  onDateChange(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.dateSelected = event.value;
-    console.log('my date selected', this.dateSelected);
-  }
+  constructor(
+    public dialog: MatDialog,
+    public timeLogService: TimeLogService,
+    public dateService: DateService
+  ) {}
 
   openDialog(obj: DateLimiterData) {
     this.dialog
@@ -159,7 +160,23 @@ export class AppComponent {
           this.lastDay,
           dateRange
         );
-        console.log('result', result);
+        this.numberOfDaysLogged = result;
+
+        result.forEach((r: string) => {
+          console.log({ r });
+
+          this.timeLogService.logHours(r, this.userInfoFromDialog.time || 8);
+        });
+
+        const temp = this.timeLogs.map((log) => {
+          if (result.includes(log.date)) {
+            log.hours += this.userInfoFromDialog.time || 0;
+          }
+          return log;
+        });
+        this.totalHours = temp.reduce((acc, val) => acc + val.hours, 0);
+        this.timeLogs = temp;
+        console.log(temp);
       });
   }
 
@@ -176,7 +193,9 @@ export class AppComponent {
       let allDatesByDefaultWithNoRange = [];
       let date = new Date(startingDate?.getTime());
       while (date <= endDating) {
-        allDatesByDefaultWithNoRange.push(new Date(date));
+        allDatesByDefaultWithNoRange.push(
+          this.dateService.formatDateToString(new Date(date))
+        );
         date.setDate(date.getDate() + 1);
       }
       let modifiedArray = allDatesByDefaultWithNoRange.slice(1, 6);
@@ -185,7 +204,9 @@ export class AppComponent {
       let datesFromDialog = [];
       let date = new Date(dateRange.start?.getTime());
       while (date <= dateRange.end) {
-        datesFromDialog.push(new Date(date));
+        datesFromDialog.push(
+          this.dateService.formatDateToString(new Date(date))
+        );
         date.setDate(date.getDate() + 1);
       }
       finalReturnedDates = finalReturnedDates.concat(datesFromDialog);
@@ -203,25 +224,56 @@ export class AppComponent {
     return dates;
   }
 
+  onDateChange(event: MatDatepickerInputEvent<Date>) {
+    if (event.value) {
+      this.dateSelected = event.value;
+      this.timeLogService.selectedBeginDate = event.value;
+      this.timeLogService.selectedEndDate = this.dateService.formatDateToString(
+        this.dateService.getEndOfWeek(event.value),
+        'LL/dd/yyy'
+      );
+
+      let start = this.dateService.getStartOfWeek(event.value);
+      let end = this.dateService.getEndOfWeek(event.value);
+
+      this.timeLogService.setDateLimits(start, end);
+
+      let headers_ = this.getDatesInBeginAndEndRange(start, end);
+      headers_ = headers_.map((date: Date) => {
+        return {
+          dayName: this.dateService.formatDateToString(date, 'EEE'),
+          date: this.dateService.formatDateToString(date),
+          day: this.dateService.formatDateToString(date, 'dd'),
+          month: this.dateService.formatDateToString(date, 'LL'),
+          year: this.dateService.formatDateToString(date, 'yyy'),
+        };
+      });
+
+      this.timeLogService.setHeaders(headers_);
+    }
+  }
+
   ngOnInit() {
+    this.getAllDefaultDates();
     this.displayDates = this.getDatesInBeginAndEndRange(
       this.firstDay,
       this.lastDay
     );
-    let arr = this.displayDates;
     let newArr = [];
     let DateArray = [];
     let DayNames: string[] = [];
-    for (let i = 0; i < arr.length; i++) {
-      new Date(arr[i])
+    for (let i = 0; i < this.displayDates.length; i++) {
+      new Date(this.displayDates[i])
         .toDateString()
         .split('-')
         .map((it) => {
           DayNames.push(it.split(' ')[0]);
         });
 
-      newArr.push(new Date(arr[i]).toISOString().split('-'));
-      DateArray.push(new Date(arr[i]).toISOString().split('-')[2].split('T'));
+      newArr.push(new Date(this.displayDates[i]).toISOString().split('-'));
+      DateArray.push(
+        new Date(this.displayDates[i]).toISOString().split('-')[2].split('T')
+      );
     }
 
     let newArray: any = [];
@@ -230,25 +282,63 @@ export class AppComponent {
       let arrayDate = i[2].split('T')[0];
       newArray.push([arrayMonth, arrayDate]);
     });
-    this.displayDateAndMonth = newArray.map((it: any) => {
-      return [it[0], it[1]];
-    });
-    console.log([this.displayDateAndMonth, DayNames]);
-    let thisArr: any[] = [];
-    let lastArr: any[] = [];
+    this.displayDateAndMonth = newArray.map((it: any) => [it[0], it[1]]);
 
-    for (let i = 0; i < this.displayDateAndMonth.length; i++) {
-      thisArr.push([this.displayDateAndMonth[i]][0]);
-      for (let j = 0; j < DayNames.length; j++) {
-        console.log('kgjfkjkf', thisArr);
-        // lastArr.push([thisArr, DayNames[j]])s;
-      }
+    let headers = this.displayDateAndMonth.map((date, i) => ({
+      dayName: DayNames[i],
+      day: date[1],
+      month: date[0],
+      year: 2023,
+      date: `${date[1]}-${date[0]}-2023`,
+    }));
+
+    this.timeLogService.setHeaders(headers);
+
+    this.timeLogs = this.displayDateAndMonth.map((date, i) => ({
+      hours: 0,
+      dayName: DayNames[i],
+      day: date[1],
+      month: date[0],
+      year: 2023,
+      date: `${date[1]}-${date[0]}-2023`,
+    }));
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('--app-display-list--ngOnChanges()----');
+    console.log('previous values', changes['dateSelected'].previousValue);
+    console.log('current values', changes['dateSelected'].currentValue);
+    const dateSelect = changes['dateSelected'].currentValue;
+    if (undefined !== dateSelect) {
+      this.date = this.dateSelected;
+      console.log('$%#%#$^$%^&%^&^&*^&', this.date);
     }
+  }
 
-    console.log();
+  getAllDefaultDates() {
+    const today =
+      this.dateSelected === undefined ? new Date() : this.dateSelected;
+    console.log('today', today, this.dateSelected);
 
-    this.returnedNumberOfDays = [lastArr.splice(0, 7)];
-    console.log(lastArr.splice(0, 7));
+    const firstDayOfWeek = new Date(
+      today.setDate(today.getDate() - today.getDay())
+    );
+    const lastDayOfWeek = new Date(
+      today.setDate(today.getDate() - today.getDay() + 6)
+    );
+
+    this.defaultDate = firstDayOfWeek.toISOString().substring(0, 10);
+    this.firstDay = firstDayOfWeek.toISOString().substring(0, 10);
+    this.lastDay = lastDayOfWeek.toISOString().substring(0, 10);
+    const lastDate = lastDayOfWeek.toISOString().substring(0, 10);
+    this.endDate = `${lastDate.split('-')[1]}/${lastDate.split('-')[2]}/${
+      lastDate.split('-')[0]
+    }`;
+
+    this.info = {
+      firstDayOfWeek: firstDayOfWeek.toISOString(),
+      lastDayOfWeek: lastDayOfWeek.toISOString(),
+    };
   }
 }
 

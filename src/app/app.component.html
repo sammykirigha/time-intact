@@ -26,9 +26,9 @@
       [matDatepicker]="datepicker"
       placeholder="Date"
       class="!text-[0.8rem] -ml-4"
-      [value]="defaultDate"
+      [value]="timeLogService.selectedBeginDate"
       #dateSelected
-      (dateChange)="onDateChange('change', $event)"
+      (dateChange)="onDateChange($event)"
     />
     <mat-datepicker-toggle
       matIconSuffix
@@ -48,7 +48,9 @@
     <div class="flex flex-col gap-3">
       <div class="flex flex-col">
         <span class="!text-[0.8rem] leading font-[400]">End date</span>
-        <span class="!text-[0.8rem] font-[300]">{{ endDate }}</span>
+        <span class="!text-[0.8rem] font-[300]">{{
+          timeLogService.selectedEndDate
+        }}</span>
       </div>
       <div class="flex flex-col gap-[2px]">
         <span class="!text-[0.8rem] leading-1 font-[400]">GL post date</span>
@@ -83,43 +85,15 @@
         >Task</span
       >
 
-      <span
-        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
-        >Sun <br />
-        04/16</span
-      >
-      <span
-        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
-        >Mon <br />
-        04/17</span
-      >
-      <span
-        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
-        >Tue <br />
-        04/18</span
-      >
-      <span
-        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
-        >Wed <br />
-        04/19</span
-      >
-      <span
-        class="whitespace-pre text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
-      >
-        Thu <br />
-        04/20
-      </span>
-      <span
-        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
-        >Fri <br />
-        04/21</span
-      >
-      <span
-        class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
-        >Sat <br />
-        04/22</span
-      >
-
+      <div class="" *ngFor="let log of timeLogService.headers">
+        <div
+          class="whitespace-wrap text-[0.9rem] w-[70px] px-2 border border-r-gray-400 text-end py-2.5"
+        >
+          <span>{{ log.dayName }} </span>
+          <br />
+          <span>{{ log.month }}/{{ log.day }}</span>
+        </div>
+      </div>
       <span
         class="whitespace-wrap text-[0.9rem] w-20 px-2 text-end py-2.5 pt-6 text-center"
         >Total</span
@@ -128,45 +102,57 @@
     <div class="flex border border-b-gray-400">
       <span
         class="w-52 truncate text-center text-[0.9rem] border border-x-gray-400 py-2 pl-3"
-        >P-00940--Eclipse Services - LEAVE - HOLIDAY</span
+        >{{ userInfoFromDialog.project }}</span
       >
       <span
         class="w-52 truncate text-[0.9rem] border border-r-gray-400 py-2 pl-3"
-        >HOLIDAY--Holiday</span
+        >{{ userInfoFromDialog.task }}</span
       >
+
       <span
         class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
-        >0.00
+        *ngFor="let hours of timeLogService.hours"
+        >{{ hours.toFixed(2) }}
       </span>
-      <span
+      <!-- <span
         class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
-        >8.00</span
+        >{{
+          userInfoFromDialog.time === undefined ? 0 : userInfoFromDialog.time
+        }}.00</span
       >
       <span
         class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
-        >8.00</span
+        >{{
+          userInfoFromDialog.time === undefined ? 0 : userInfoFromDialog.time
+        }}.00</span
       >
       <span
         class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
-        >8.00</span
+        >{{
+          userInfoFromDialog.time === undefined ? 0 : userInfoFromDialog.time
+        }}.00</span
       >
       <span
         class="whitespace-pre text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
       >
-        8.00
+        {{
+          userInfoFromDialog.time === undefined ? 0 : userInfoFromDialog.time
+        }}.00
       </span>
       <span
         class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
-        >8.00</span
+        >{{
+          userInfoFromDialog.time === undefined ? 0 : userInfoFromDialog.time
+        }}.00</span
       >
       <span
         class="whitespace-wrap text-[0.9rem] w-20 border border-r-gray-400 px-2 text-end py-2.5"
         >0.00</span
-      >
+      > -->
       <span
         class="whitespace-wrap text-[0.9rem] w-20 px-2 text-end py-2.5 pt-2 text-center border border-r-gray-400"
-        >40.00</span
-      >
+        >{{ totalHours }}.00
+      </span>
     </div>
   </div>
 

@@ -11,6 +11,7 @@ import {
 } from '@angular/material/dialog';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AppComponent } from 'src/app/app.component';
+import { TimeLogService } from 'src/app/services/time-log.service';
 
 export interface UsersData {
   name: string;
@@ -44,10 +45,9 @@ export class TimeInfoComponent {
   constructor(
     public dialog: MatDialog,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: UsersData,
-    private dialogRef: MatDialogRef<AppComponent>
+    private dialogRef: MatDialogRef<AppComponent>,
+    public timeLogService: TimeLogService
   ) {
-    this.minDate = `${data?.firstDayOfWeek}`;
-    this.maxDate = `${data?.lastDayOfWeek}`;
     this.local_data = { ...data };
     this.action = this.local_data.action;
   }

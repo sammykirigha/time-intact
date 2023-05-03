@@ -133,8 +133,8 @@
         <mat-date-range-input
           [rangePicker]="rangePicker"
           class="!text-[0.8rem] -ml-4"
-          [min]="minDate"
-          [max]="maxDate"
+          [min]="timeLogService.minDate"
+          [max]="timeLogService.maxDate"
           [formGroup]="dateRange"
         >
           <input
