@@ -27,7 +27,6 @@
       placeholder="Date"
       class="!text-[0.8rem] -ml-4"
       [value]="timeLogService.selectedBeginDate"
-      #dateSelected
       (dateChange)="onDateChange($event)"
     />
     <mat-datepicker-toggle
@@ -54,7 +53,9 @@
       </div>
       <div class="flex flex-col gap-[2px]">
         <span class="!text-[0.8rem] leading-1 font-[400]">GL post date</span>
-        <span class="!text-[0.8rem] font-[300]">{{ endDate }}</span>
+        <span class="!text-[0.8rem] font-[300]">{{
+          timeLogService.selectedEndDate
+        }}</span>
       </div>
     </div>
   </div>

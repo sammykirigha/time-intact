@@ -65,7 +65,7 @@ const Time_Info_Data: IUserTimeInfo[] = [
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, OnChanges {
+export class AppComponent implements OnInit {
   faAngleDown = faAngleDown;
   faXmark = faXmark;
   title = 'intact-time-log';
@@ -74,8 +74,7 @@ export class AppComponent implements OnInit, OnChanges {
   dateRangeStart: any | undefined;
   dateRangeEnd: any | undefined;
 
-  @Input() dateSelected: any | undefined;
-  @Input() date: any | undefined;
+  dateSelected: any | undefined;
   firstDay: any | undefined;
   lastDay: any | undefined;
   defaultDate: string | undefined;
@@ -164,7 +163,6 @@ export class AppComponent implements OnInit, OnChanges {
 
         result.forEach((r: string) => {
           console.log({ r });
-
           this.timeLogService.logHours(r, this.userInfoFromDialog.time || 8);
         });
 
@@ -228,6 +226,12 @@ export class AppComponent implements OnInit, OnChanges {
     if (event.value) {
       this.dateSelected = event.value;
       this.timeLogService.selectedBeginDate = event.value;
+      // this.timeLogService.selectedBeginDate =
+      //   this.dateService.formatDateToString(
+      //     this.dateService.getStartOfWeek(event.value),
+      //     'LL/dd/yyy'
+      //   );
+      console.log('<<<<>>>>>', this.timeLogService.selectedBeginDate);
       this.timeLogService.selectedEndDate = this.dateService.formatDateToString(
         this.dateService.getEndOfWeek(event.value),
         'LL/dd/yyy'
@@ -254,6 +258,7 @@ export class AppComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    console.log('<<<<>>>>>', this.timeLogService.selectedBeginDate);
     this.getAllDefaultDates();
     this.displayDates = this.getDatesInBeginAndEndRange(
       this.firstDay,
@@ -304,41 +309,11 @@ export class AppComponent implements OnInit, OnChanges {
     }));
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('--app-display-list--ngOnChanges()----');
-    console.log('previous values', changes['dateSelected'].previousValue);
-    console.log('current values', changes['dateSelected'].currentValue);
-    const dateSelect = changes['dateSelected'].currentValue;
-    if (undefined !== dateSelect) {
-      this.date = this.dateSelected;
-      console.log('$%#%#$^$%^&%^&^&*^&', this.date);
-    }
-  }
-
   getAllDefaultDates() {
-    const today =
-      this.dateSelected === undefined ? new Date() : this.dateSelected;
-    console.log('today', today, this.dateSelected);
-
-    const firstDayOfWeek = new Date(
-      today.setDate(today.getDate() - today.getDay())
-    );
-    const lastDayOfWeek = new Date(
-      today.setDate(today.getDate() - today.getDay() + 6)
-    );
-
-    this.defaultDate = firstDayOfWeek.toISOString().substring(0, 10);
+    const firstDayOfWeek = this.dateService.getStartOfWeek(new Date());
+    const lastDayOfWeek = this.dateService.getEndOfWeek(new Date());
     this.firstDay = firstDayOfWeek.toISOString().substring(0, 10);
     this.lastDay = lastDayOfWeek.toISOString().substring(0, 10);
-    const lastDate = lastDayOfWeek.toISOString().substring(0, 10);
-    this.endDate = `${lastDate.split('-')[1]}/${lastDate.split('-')[2]}/${
-      lastDate.split('-')[0]
-    }`;
-
-    this.info = {
-      firstDayOfWeek: firstDayOfWeek.toISOString(),
-      lastDayOfWeek: lastDayOfWeek.toISOString(),
-    };
   }
 }
 
